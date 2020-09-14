@@ -3,17 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		50863C643FCBDC9AAEAF539B /* Pods_eKibic_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C23961E53B1662E9CEC546 /* Pods_eKibic_Mobile.framework */; };
 		9D415A6C250BD8F600C59AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6B250BD8F600C59AB5 /* AppDelegate.swift */; };
 		9D415A6E250BD8F600C59AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6D250BD8F600C59AB5 /* SceneDelegate.swift */; };
-		9D415A70250BD8F600C59AB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6F250BD8F600C59AB5 /* ViewController.swift */; };
+		9D415A70250BD8F600C59AB5 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6F250BD8F600C59AB5 /* MainVC.swift */; };
 		9D415A73250BD8F600C59AB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D415A71250BD8F600C59AB5 /* Main.storyboard */; };
 		9D415A75250BD8FD00C59AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D415A74250BD8FD00C59AB5 /* Assets.xcassets */; };
 		9D415A78250BD8FD00C59AB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D415A76250BD8FD00C59AB5 /* LaunchScreen.storyboard */; };
+		9D475212250FFBD500B9D115 /* DataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D475211250FFBD500B9D115 /* DataVC.swift */; };
+		9D4752142510040D00B9D115 /* UIControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4752132510040D00B9D115 /* UIControllerView.swift */; };
+		9DB07726250D19DA00986034 /* AlamofireSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07725250D19DA00986034 /* AlamofireSession.swift */; };
+		9DB07728250D1B5D00986034 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07727250D1B5D00986034 /* DataModel.swift */; };
+		9DB0772A250F801A00986034 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07729250F801A00986034 /* SignInVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,11 +26,16 @@
 		9D415A68250BD8F600C59AB5 /* eKibic Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eKibic Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D415A6B250BD8F600C59AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D415A6D250BD8F600C59AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9D415A6F250BD8F600C59AB5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9D415A6F250BD8F600C59AB5 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		9D415A72250BD8F600C59AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9D415A74250BD8FD00C59AB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D415A77250BD8FD00C59AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D415A79250BD8FD00C59AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D475211250FFBD500B9D115 /* DataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataVC.swift; sourceTree = "<group>"; };
+		9D4752132510040D00B9D115 /* UIControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControllerView.swift; sourceTree = "<group>"; };
+		9DB07725250D19DA00986034 /* AlamofireSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireSession.swift; sourceTree = "<group>"; };
+		9DB07727250D1B5D00986034 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		9DB07729250F801A00986034 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		E1C23961E53B1662E9CEC546 /* Pods_eKibic_Mobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eKibic_Mobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDA39AC22C87FD68A4370D36 /* Pods-eKibic Mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eKibic Mobile.debug.xcconfig"; path = "Target Support Files/Pods-eKibic Mobile/Pods-eKibic Mobile.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +92,7 @@
 		9D415A81250BDD9D00C59AB5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				9D4752152510041D00B9D115 /* extensions */,
 				9DB07724250D13D700986034 /* model */,
 				9DB07723250D13BE00986034 /* delegates */,
 				9DB07722250D13A600986034 /* view controllers */,
@@ -98,10 +109,20 @@
 			path = other;
 			sourceTree = "<group>";
 		};
+		9D4752152510041D00B9D115 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9D4752132510040D00B9D115 /* UIControllerView.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
 		9DB07722250D13A600986034 /* view controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9D415A6F250BD8F600C59AB5 /* ViewController.swift */,
+				9D415A6F250BD8F600C59AB5 /* MainVC.swift */,
+				9DB07729250F801A00986034 /* SignInVC.swift */,
+				9D475211250FFBD500B9D115 /* DataVC.swift */,
 			);
 			path = "view controllers";
 			sourceTree = "<group>";
@@ -118,6 +139,8 @@
 		9DB07724250D13D700986034 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				9DB07725250D19DA00986034 /* AlamofireSession.swift */,
+				9DB07727250D1B5D00986034 /* DataModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -128,7 +151,6 @@
 				FDA39AC22C87FD68A4370D36 /* Pods-eKibic Mobile.debug.xcconfig */,
 				9BDC54566099FEFE452892FD /* Pods-eKibic Mobile.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -255,7 +277,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D415A70250BD8F600C59AB5 /* ViewController.swift in Sources */,
+				9D4752142510040D00B9D115 /* UIControllerView.swift in Sources */,
+				9D475212250FFBD500B9D115 /* DataVC.swift in Sources */,
+				9DB07728250D1B5D00986034 /* DataModel.swift in Sources */,
+				9D415A70250BD8F600C59AB5 /* MainVC.swift in Sources */,
+				9DB0772A250F801A00986034 /* SignInVC.swift in Sources */,
+				9DB07726250D19DA00986034 /* AlamofireSession.swift in Sources */,
 				9D415A6C250BD8F600C59AB5 /* AppDelegate.swift in Sources */,
 				9D415A6E250BD8F600C59AB5 /* SceneDelegate.swift in Sources */,
 			);
