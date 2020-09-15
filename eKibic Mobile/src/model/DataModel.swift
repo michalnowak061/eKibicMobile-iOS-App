@@ -43,7 +43,7 @@ struct DataModel {
         "VIP1": Sector.init(name: "VIP1", capacity: 0, freePlaces: 0, isOpen: false),
         "VIP2": Sector.init(name: "VIP2", capacity: 0, freePlaces: 0, isOpen: false),
         "SUPER VIP": Sector.init(name: "SUPER VIP", capacity: 0, freePlaces: 0, isOpen: false),
-        "OsNiep": Sector.init(name: "OsNiep", capacity: 0, freePlaces: 0, isOpen: false),
+        "OS NIEP": Sector.init(name: "OS NIEP", capacity: 0, freePlaces: 0, isOpen: false),
         "Prasa": Sector.init(name: "Prasa", capacity: 0, freePlaces: 0, isOpen: false)
     ]
     
@@ -57,13 +57,7 @@ struct DataModel {
         checkHtmlSourceCode()
         
         if state == DataModelState.BuyTicket {
-            var sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_121_266\">")?.lowerBound
-            var eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
-            parseSectorData(sectorName: "SUPER VIP", startIndex: sIndex!, endIndex: eIndex!)
-            
-            sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
-            eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
-            parseSectorData(sectorName: "VIP1", startIndex: sIndex!, endIndex: eIndex!)
+            parseSectorsData()
         }
         
         printDataModel()
@@ -74,32 +68,118 @@ struct DataModel {
             state = DataModelState.Null
             return
         }
-        if htmlSourceCode!.contains("<title>Bilety Online - Logowanie</title>") {
+        if htmlSourceCode!.contains("Bilety Online - Logowanie") {
             state = DataModelState.SignIn
         }
-        if htmlSourceCode!.contains("<title>Bilety Online - Kup bilet | KGHM Zagłębie Lubin -") {
+        if htmlSourceCode!.contains("Bilety Online - Kup bilet") {
             state = DataModelState.BuyTicket
         }
     }
     
-    private mutating func parseSectorData(sectorName: String, startIndex: String.Index?, endIndex: String.Index?) {
-        guard htmlSourceCode != nil && startIndex != nil && endIndex != nil else {
-            return
+    private mutating func parseSectorsData() {
+        func parseSectorData(sectorName: String, startIndex: String.Index?, endIndex: String.Index?) {
+            guard htmlSourceCode != nil && startIndex != nil && endIndex != nil else {
+                return
+            }
+            
+            let sectorData = htmlSourceCode![startIndex!..<endIndex!]
+            
+            if sectorData.contains("disabled") {
+                SectorsDictionary[sectorName]?.freePlaces = 0
+                SectorsDictionary[sectorName]?.isOpen = false
+            }
+            else {
+                let startIndex = sectorData.range(of: "Wolnych miejsc: ")?.upperBound
+                let endIndex = sectorData.range(of: "</span></a>")?.lowerBound
+                let freePlaces = sectorData[startIndex!..<endIndex!]
+                SectorsDictionary[sectorName]?.freePlaces = Int(freePlaces)
+                SectorsDictionary[sectorName]?.isOpen = true
+            }
         }
         
-        let sectorData = htmlSourceCode![startIndex!..<endIndex!]
+        var sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_121_266\">")?.lowerBound
+        var eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
+        parseSectorData(sectorName: "SUPER VIP", startIndex: sIndex!, endIndex: eIndex!)
         
-        if sectorData.contains("disabled") {
-            SectorsDictionary[sectorName]?.freePlaces = 0
-            SectorsDictionary[sectorName]?.isOpen = false
-        }
-        else {
-            let startIndex = sectorData.range(of: "Wolnych miejsc: ")?.upperBound
-            let endIndex = sectorData.range(of: "</span></a>")?.lowerBound
-            let freePlaces = sectorData[startIndex!..<endIndex!]
-            SectorsDictionary[sectorName]?.freePlaces = Int(freePlaces)
-            SectorsDictionary[sectorName]?.isOpen = true
-        }
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
+        parseSectorData(sectorName: "VIP1", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_267\">")?.lowerBound
+        parseSectorData(sectorName: "VIP2", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_267\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_29\">")?.lowerBound
+        parseSectorData(sectorName: "PRASA", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_29\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_48\">")?.lowerBound
+        parseSectorData(sectorName: "A1", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_48\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_46\">")?.lowerBound
+        parseSectorData(sectorName: "A2", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_46\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_269\">")?.lowerBound
+        parseSectorData(sectorName: "B1", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_269\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_271\">")?.lowerBound
+        parseSectorData(sectorName: "B2", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_271\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_272\">")?.lowerBound
+        parseSectorData(sectorName: "E3", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_272\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_273\">")?.lowerBound
+        parseSectorData(sectorName: "F2", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_273\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_270\">")?.lowerBound
+        parseSectorData(sectorName: "F3", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_270\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_43\">")?.lowerBound
+        parseSectorData(sectorName: "E2", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_43\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_42\">")?.lowerBound
+        parseSectorData(sectorName: "E1", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_42\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_1020\">")?.lowerBound
+        parseSectorData(sectorName: "F0", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_1020\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_45\">")?.lowerBound
+        parseSectorData(sectorName: "F1", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_45\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_274\">")?.lowerBound
+        parseSectorData(sectorName: "C", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_274\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_40\">")?.lowerBound
+        parseSectorData(sectorName: "H2", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_40\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_127_44\">")?.lowerBound
+        parseSectorData(sectorName: "H1", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_127_44\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_41\">")?.lowerBound
+        parseSectorData(sectorName: "D", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_41\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_283\">")?.lowerBound
+        parseSectorData(sectorName: "G", startIndex: sIndex!, endIndex: eIndex!)
+        
+        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_283\">")?.lowerBound
+        eIndex = htmlSourceCode!.range(of: "Podgląd mapy stadionu")?.lowerBound
+        parseSectorData(sectorName: "OS NIEP", startIndex: sIndex!, endIndex: eIndex!)
     }
 }
 
