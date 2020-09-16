@@ -49,7 +49,7 @@ class DataVC: UIViewController {
         
         afQueue.async {
             while self.afSession.htmlSourceCode == nil {
-                sleep(1)
+                usleep(100000)
                 print("pobieram...")
             }
             

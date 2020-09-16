@@ -9,6 +9,16 @@
 import UIKit
 
 public extension UIViewController {
+    func presentMainVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainVC = storyboard.instantiateViewController(withIdentifier: "MainVC")
+        
+        mainVC.modalPresentationStyle = .fullScreen
+        mainVC.modalTransitionStyle = .crossDissolve
+        
+        present(mainVC, animated: true, completion: nil)
+    }
+    
     func presentSignInVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInVC")

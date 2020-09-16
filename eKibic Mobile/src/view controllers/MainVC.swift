@@ -24,7 +24,7 @@ class MainVC: UIViewController {
         viewQueue.sync {
             switch dataModel.state {
             case .SignIn:
-                presentSignInVC()
+                presentSignInCommunicate()
                 break
             case .BuyTicket:
                 break
@@ -46,8 +46,7 @@ class MainVC: UIViewController {
         
         afQueue.async {
             while self.afSession.htmlSourceCode == nil {
-                sleep(1)
-                print("pobieram...")
+                usleep(100000)
             }
             
             if self.afSession.htmlSourceCode != "error" {
@@ -60,6 +59,14 @@ class MainVC: UIViewController {
             dataModel.update()
             self.updateView()
         }
+    }
+    
+    private func presentSignInCommunicate() {
+        let alert = UIAlertController(title: "Pierwsze uruchomienie", message: "Pierwsze uruchomienie aplikacji wymaga zalogowania się na platformie ekibic wraz z zaznaczoną opcją \"zapamiętaj mnie\".", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {action in
+            self.presentSignInVC()
+        }))
+        self.present(alert, animated: true)
     }
         
     @IBOutlet weak var textView: UITextView!

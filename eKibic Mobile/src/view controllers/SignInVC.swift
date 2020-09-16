@@ -14,6 +14,7 @@ class SignInVC: UIViewController, WKUIDelegate {
     var afSession = AlamofireSession()
     var afQueue = DispatchQueue.init(label: "afQueue")
     var viewQueue = DispatchQueue.main
+    var loadIterator = 0
     
     override func loadView() {
         let webConfiguration = WKWebViewConfiguration()
@@ -35,11 +36,14 @@ class SignInVC: UIViewController, WKUIDelegate {
         viewQueue.sync {
             switch dataModel.state {
             case .SignIn:
+                if loadIterator >= 2 {
+                    presentMainVC()
+                }
                 break
             case .BuyTicket:
-                //presentDataVC()
                 break
             case .MyTickets:
+                presentEventsVC()
                 break
             case .ForSale:
                 break
@@ -50,12 +54,12 @@ class SignInVC: UIViewController, WKUIDelegate {
     }
     
     private func downloadData() {
-        afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["cracovia"] ?? "")
-        
         afQueue.async {
+            self.afSession.htmlSourceCode = nil
+            self.afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["myTickets"] ?? "")
+            
             while self.afSession.htmlSourceCode == nil {
-                sleep(1)
-                print("pobieram...")
+                usleep(100000)
             }
             
             if self.afSession.htmlSourceCode != "error" {
@@ -69,13 +73,19 @@ class SignInVC: UIViewController, WKUIDelegate {
             self.updateView()
         }
     }
+    
+    private func presentRememberMeCommunicate() {
+        let alert = UIAlertController(title: "Zapamiętaj mnie", message: "Do poprawnego działania aplikacja wymaga zalogowania z zaznaczoną opcją \"zapamiętaj mnie\".", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
 }
 
 extension SignInVC: WKNavigationDelegate {
     func webView(_: WKWebView, didFinish: WKNavigation!) {
-        webView.evaluateJavaScript("document.documentElement.outerHTML.toString()",
-                                   completionHandler: { (html: Any?, error: Error?) in
+        webView.evaluateJavaScript("document.documentElement.outerHTML.toString()", completionHandler: { (html: Any?, error: Error?) in
             self.downloadData()
+            self.loadIterator += 1
         })
     }
 }

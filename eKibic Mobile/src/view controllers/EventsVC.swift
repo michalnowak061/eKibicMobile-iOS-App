@@ -48,8 +48,7 @@ class EventsVC: UIViewController {
             self.afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["forSale"] ?? "")
             
             while self.afSession.htmlSourceCode == nil {
-                sleep(1)
-                print("pobieram...")
+                usleep(100000)
             }
             
             if self.afSession.htmlSourceCode != "error" {
@@ -69,16 +68,14 @@ class EventsVC: UIViewController {
                 }
                 self.afSession.downloadImage(url: event.opponentImgLink!)
                 while self.afSession.image == nil {
-                    sleep(1)
-                    print("pobieram obrazek...")
+                    usleep(100000)
                 }
                 self.opponentsImages.append(self.afSession.image!)
                 self.afSession.image = nil
                 
                 self.afSession.downloadImage(url: event.hostImgLink!)
                 while self.afSession.image == nil {
-                    sleep(1)
-                    print("pobieram obrazek...")
+                    usleep(100000)
                 }
                 self.hostsImages.append(self.afSession.image!)
                 self.afSession.image = nil
