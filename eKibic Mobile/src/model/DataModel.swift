@@ -26,28 +26,28 @@ struct DataModel {
     var htmlSourceCode: String?
     var state: DataModelState = DataModelState.Null
     var events: [Event] = []
-    var SectorsDictionary = [
-        "A1": Sector.init(name: "A1", capacity: 0, freePlaces: 0, isOpen: false),
-        "A2": Sector.init(name: "A2", capacity: 0, freePlaces: 0, isOpen: false),
-        "B1": Sector.init(name: "B1", capacity: 0, freePlaces: 0, isOpen: false),
-        "B2": Sector.init(name: "B2", capacity: 0, freePlaces: 0, isOpen: false),
-        "C": Sector.init(name: "C", capacity: 0, freePlaces: 0, isOpen: false),
-        "D": Sector.init(name: "D", capacity: 0, freePlaces: 0, isOpen: false),
-        "E1": Sector.init(name: "E1", capacity: 0, freePlaces: 0, isOpen: false),
-        "E2": Sector.init(name: "E2", capacity: 0, freePlaces: 0, isOpen: false),
-        "E3": Sector.init(name: "E3", capacity: 0, freePlaces: 0, isOpen: false),
-        "F0": Sector.init(name: "F0", capacity: 0, freePlaces: 0, isOpen: false),
-        "F1": Sector.init(name: "F1", capacity: 0, freePlaces: 0, isOpen: false),
-        "F2": Sector.init(name: "F2", capacity: 0, freePlaces: 0, isOpen: false),
-        "F3": Sector.init(name: "F3", capacity: 0, freePlaces: 0, isOpen: false),
-        "G": Sector.init(name: "G", capacity: 0, freePlaces: 0, isOpen: false),
-        "H1": Sector.init(name: "H1", capacity: 0, freePlaces: 0, isOpen: false),
-        "H2": Sector.init(name: "H2", capacity: 0, freePlaces: 0, isOpen: false),
-        "VIP1": Sector.init(name: "VIP1", capacity: 0, freePlaces: 0, isOpen: false),
-        "VIP2": Sector.init(name: "VIP2", capacity: 0, freePlaces: 0, isOpen: false),
-        "SUPER VIP": Sector.init(name: "SUPER VIP", capacity: 0, freePlaces: 0, isOpen: false),
-        "OS NIEP": Sector.init(name: "OS NIEP", capacity: 0, freePlaces: 0, isOpen: false),
-        "Prasa": Sector.init(name: "Prasa", capacity: 0, freePlaces: 0, isOpen: false)
+    var sectorsDictionary = [
+        "A1": Sector.init(name: "A1", capacity: 0, freePlaces: 0, isOpen: false, color: (205, 123, 42)),
+        "A2": Sector.init(name: "A2", capacity: 0, freePlaces: 0, isOpen: false, color: (205, 123, 42)),
+        "B1": Sector.init(name: "B1", capacity: 0, freePlaces: 0, isOpen: false, color: (112, 169, 65)),
+        "B2": Sector.init(name: "B2", capacity: 0, freePlaces: 0, isOpen: false, color: (112, 169, 65)),
+        "C": Sector.init(name: "C", capacity: 0, freePlaces: 0, isOpen: false, color: (66, 135, 67)),
+        "D": Sector.init(name: "D", capacity: 0, freePlaces: 0, isOpen: false, color: (53, 103, 170)),
+        "E1": Sector.init(name: "E1", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "E2": Sector.init(name: "E2", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "E3": Sector.init(name: "E3", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "F0": Sector.init(name: "F0", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "F1": Sector.init(name: "F1", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "F2": Sector.init(name: "F2", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "F3": Sector.init(name: "F3", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "G": Sector.init(name: "G", capacity: 0, freePlaces: 0, isOpen: false, color: (66, 135, 67)),
+        "H1": Sector.init(name: "H1", capacity: 0, freePlaces: 0, isOpen: false, color: (53, 103, 170)),
+        "H2": Sector.init(name: "H2", capacity: 0, freePlaces: 0, isOpen: false, color: (208, 87, 45)),
+        "VIP1": Sector.init(name: "VIP1", capacity: 0, freePlaces: 0, isOpen: false, color: (92, 93, 94)),
+        "VIP2": Sector.init(name: "VIP2", capacity: 0, freePlaces: 0, isOpen: false, color: (121, 121, 121)),
+        "SUPER VIP": Sector.init(name: "SUPER VIP", capacity: 0, freePlaces: 0, isOpen: false, color: (151, 111, 63)),
+        "OS NIEP": Sector.init(name: "OS NIEP", capacity: 0, freePlaces: 0, isOpen: false, color: (66, 142, 203)),
+        "PRASA": Sector.init(name: "PRASA", capacity: 0, freePlaces: 0, isOpen: false, color: (27, 28, 27))
     ]
     
     public mutating func update() {
@@ -182,15 +182,15 @@ struct DataModel {
             let sectorData = htmlSourceCode![startIndex!..<endIndex!]
             
             if sectorData.contains("disabled") {
-                SectorsDictionary[sectorName]?.freePlaces = 0
-                SectorsDictionary[sectorName]?.isOpen = false
+                sectorsDictionary[sectorName]?.freePlaces = 0
+                sectorsDictionary[sectorName]?.isOpen = false
             }
             else {
                 let startIndex = sectorData.range(of: "Wolnych miejsc: ")?.upperBound
                 let endIndex = sectorData.range(of: "</span></a>")?.lowerBound
-                let freePlaces = sectorData[startIndex!..<endIndex!]
-                SectorsDictionary[sectorName]?.freePlaces = Int(freePlaces)
-                SectorsDictionary[sectorName]?.isOpen = true
+                let freePlaces: Int = Int(String(sectorData[startIndex!..<endIndex!])) ?? 0
+                sectorsDictionary[sectorName]?.freePlaces = freePlaces
+                sectorsDictionary[sectorName]?.isOpen = true
             }
         }
         
@@ -293,9 +293,11 @@ extension DataModel {
     }
     
     struct Sector {
-        var name: String!
-        var capacity: Int!
-        var freePlaces: Int?
-        var isOpen: Bool?
+        var name = ""
+        var capacity = 0
+        var freePlaces = 0
+        var occupiedPlaces = 0
+        var isOpen = false
+        var color: (r: Int, g: Int, b: Int) = (0, 0, 0)
     }
 }

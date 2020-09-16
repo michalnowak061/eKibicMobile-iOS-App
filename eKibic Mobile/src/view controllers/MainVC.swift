@@ -27,7 +27,6 @@ class MainVC: UIViewController {
                 presentSignInVC()
                 break
             case .BuyTicket:
-                presentDataVC()
                 break
             case .MyTickets:
                 presentEventsVC()

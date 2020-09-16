@@ -37,7 +37,7 @@ class SignInVC: UIViewController, WKUIDelegate {
             case .SignIn:
                 break
             case .BuyTicket:
-                presentDataVC()
+                //presentDataVC()
                 break
             case .MyTickets:
                 break

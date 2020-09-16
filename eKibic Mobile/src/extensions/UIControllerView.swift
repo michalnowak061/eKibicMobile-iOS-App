@@ -29,12 +29,14 @@ public extension UIViewController {
         present(eventsVC, animated: true, completion: nil)
     }
     
-    func presentDataVC() {
+    func presentDataVC(title: String, url: String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let dataVC = storyboard.instantiateViewController(withIdentifier: "DataVC")
+        let dataVC = storyboard.instantiateViewController(withIdentifier: "DataVC") as! DataVC
         
         dataVC.modalPresentationStyle = .fullScreen
         dataVC.modalTransitionStyle = .crossDissolve
+        dataVC.barTitle = title
+        dataVC.url = url
         
         present(dataVC, animated: true, completion: nil)
     }

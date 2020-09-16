@@ -29,7 +29,6 @@ class EventsVC: UIViewController {
                 presentSignInVC()
                 break
             case .BuyTicket:
-                presentDataVC()
                 break
             case .MyTickets:
                 break
@@ -92,12 +91,6 @@ class EventsVC: UIViewController {
     @IBOutlet weak var eventsCollectionView: UICollectionView!
 }
 
-extension EventsVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 50, height: 50)
-    }
-}
-
 extension EventsVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataModel.events.count
@@ -115,5 +108,12 @@ extension EventsVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.opponontNameLabel.text = dataModel.events[indexPath.row].opponent
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let link = dataModel.events[indexPath.row].link, let eventName = dataModel.events[indexPath.row].name else {
+            return
+        }
+        presentDataVC(title: eventName, url: link)
     }
 }

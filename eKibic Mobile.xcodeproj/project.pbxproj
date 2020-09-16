@@ -19,6 +19,8 @@
 		9DB07726250D19DA00986034 /* AlamofireSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07725250D19DA00986034 /* AlamofireSession.swift */; };
 		9DB07728250D1B5D00986034 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07727250D1B5D00986034 /* DataModel.swift */; };
 		9DB0772A250F801A00986034 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07729250F801A00986034 /* SignInVC.swift */; };
+		9DBB30C325128A3B00675F95 /* SectorCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBB30C225128A3B00675F95 /* SectorCVC.swift */; };
+		9DBB30C52512AB9700675F95 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBB30C42512AB9700675F95 /* UIColor.swift */; };
 		9DE9231725118B8500555DD8 /* EventsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9231625118B8500555DD8 /* EventsVC.swift */; };
 		9DE923192512155D00555DD8 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE923182512155D00555DD8 /* String.swift */; };
 		9DE9231C25122B0100555DD8 /* EventCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9231B25122B0100555DD8 /* EventCVC.swift */; };
@@ -39,6 +41,8 @@
 		9DB07725250D19DA00986034 /* AlamofireSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireSession.swift; sourceTree = "<group>"; };
 		9DB07727250D1B5D00986034 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		9DB07729250F801A00986034 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
+		9DBB30C225128A3B00675F95 /* SectorCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorCVC.swift; sourceTree = "<group>"; };
+		9DBB30C42512AB9700675F95 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		9DE9231625118B8500555DD8 /* EventsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsVC.swift; sourceTree = "<group>"; };
 		9DE923182512155D00555DD8 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		9DE9231B25122B0100555DD8 /* EventCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCVC.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				9D4752132510040D00B9D115 /* UIControllerView.swift */,
+				9DBB30C42512AB9700675F95 /* UIColor.swift */,
 				9DE923182512155D00555DD8 /* String.swift */,
 			);
 			path = extensions;
@@ -158,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				9DE9231B25122B0100555DD8 /* EventCVC.swift */,
+				9DBB30C225128A3B00675F95 /* SectorCVC.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -296,12 +302,14 @@
 			files = (
 				9D4752142510040D00B9D115 /* UIControllerView.swift in Sources */,
 				9D475212250FFBD500B9D115 /* DataVC.swift in Sources */,
+				9DBB30C325128A3B00675F95 /* SectorCVC.swift in Sources */,
 				9DE9231C25122B0100555DD8 /* EventCVC.swift in Sources */,
 				9DE923192512155D00555DD8 /* String.swift in Sources */,
 				9DB07728250D1B5D00986034 /* DataModel.swift in Sources */,
 				9D415A70250BD8F600C59AB5 /* MainVC.swift in Sources */,
 				9DB0772A250F801A00986034 /* SignInVC.swift in Sources */,
 				9DE9231725118B8500555DD8 /* EventsVC.swift in Sources */,
+				9DBB30C52512AB9700675F95 /* UIColor.swift in Sources */,
 				9DB07726250D19DA00986034 /* AlamofireSession.swift in Sources */,
 				9D415A6C250BD8F600C59AB5 /* AppDelegate.swift in Sources */,
 				9D415A6E250BD8F600C59AB5 /* SceneDelegate.swift in Sources */,
