@@ -29,6 +29,11 @@ class MainVC: UIViewController {
             case .BuyTicket:
                 presentDataVC()
                 break
+            case .MyTickets:
+                presentEventsVC()
+                break
+            case .ForSale:
+                break
             case .Null:
                 break
             }
@@ -38,7 +43,7 @@ class MainVC: UIViewController {
     }
     
     private func downloadData() {
-        afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["cracovia"] ?? "")
+        afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["myTickets"] ?? "")
         
         afQueue.async {
             while self.afSession.htmlSourceCode == nil {

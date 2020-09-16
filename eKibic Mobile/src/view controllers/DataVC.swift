@@ -14,19 +14,22 @@ class DataVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.text = dataModel.htmlSourceCode
-        //dataModel.printDataModel()
+        textView.text = dataModel.SectorsDictionary.description
     }
     
     private func updateView() {
         viewQueue.sync {
             switch dataModel.state {
-            case DataModelState.SignIn:
+            case .SignIn:
                 presentSignInVC()
                 break
-            case DataModelState.BuyTicket:
+            case .BuyTicket:
                 break
-            case DataModelState.Null:
+            case .MyTickets:
+                break
+            case .ForSale:
+                break
+            case .Null:
                 break
             }
         }

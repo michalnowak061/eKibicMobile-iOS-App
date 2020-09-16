@@ -19,6 +19,16 @@ public extension UIViewController {
         present(signInVC, animated: true, completion: nil)
     }
     
+    func presentEventsVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let eventsVC = storyboard.instantiateViewController(withIdentifier: "EventsVC")
+        
+        eventsVC.modalPresentationStyle = .fullScreen
+        eventsVC.modalTransitionStyle = .crossDissolve
+        
+        present(eventsVC, animated: true, completion: nil)
+    }
+    
     func presentDataVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let dataVC = storyboard.instantiateViewController(withIdentifier: "DataVC")

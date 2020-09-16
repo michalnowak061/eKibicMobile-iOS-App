@@ -34,12 +34,16 @@ class SignInVC: UIViewController, WKUIDelegate {
     private func updateView() {
         viewQueue.sync {
             switch dataModel.state {
-            case DataModelState.SignIn:
+            case .SignIn:
                 break
-            case DataModelState.BuyTicket:
+            case .BuyTicket:
                 presentDataVC()
                 break
-            case DataModelState.Null:
+            case .MyTickets:
+                break
+            case .ForSale:
+                break
+            case .Null:
                 break
             }
         }

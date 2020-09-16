@@ -12,6 +12,7 @@ import Alamofire
 class AlamofireSession {
     var afHandle = AF
     var htmlSourceCode: String?
+    var image: UIImage?
     
     public func dowloadHtmlSourceCode(url: String) {
         afHandle.request(url).responseString { response in
@@ -21,6 +22,15 @@ class AlamofireSession {
             else {
                 self.htmlSourceCode = "error"
             }
+        }
+    }
+    
+    public func downloadImage(url: String) {
+        afHandle.request(url).response { response in
+            guard response.data != nil else {
+                return
+            }
+            self.image = UIImage(data: response.data!, scale:1)
         }
     }
 }

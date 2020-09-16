@@ -12,17 +12,20 @@ enum DataModelState {
     case Null
     case SignIn
     case BuyTicket
+    case MyTickets
+    case ForSale
 }
 
 struct DataModel {
     let eKibicURL = [
         "main": "https://ekibic.zaglebie.com/Home",
         "signIn": "https://ekibic.zaglebie.com/Account/Login/loginLink",
-        "cracovia": "https://ekibic.zaglebie.com/BuyTicket/SectorSelect?eventId=245"
+        "myTickets": "https://ekibic.zaglebie.com/Home/MyTickets",
+        "forSale": "https://ekibic.zaglebie.com/Home/ForSale"
     ]
     var htmlSourceCode: String?
     var state: DataModelState = DataModelState.Null
-    
+    var events: [Event] = []
     var SectorsDictionary = [
         "A1": Sector.init(name: "A1", capacity: 0, freePlaces: 0, isOpen: false),
         "A2": Sector.init(name: "A2", capacity: 0, freePlaces: 0, isOpen: false),
@@ -47,33 +50,127 @@ struct DataModel {
         "Prasa": Sector.init(name: "Prasa", capacity: 0, freePlaces: 0, isOpen: false)
     ]
     
-    public func printDataModel() {
-        for sector in SectorsDictionary {
-            print(sector)
-        }
-    }
-    
     public mutating func update() {
         checkHtmlSourceCode()
-        
-        if state == DataModelState.BuyTicket {
+    
+        switch state {
+        case .SignIn:
+            break
+        case .BuyTicket:
             parseSectorsData()
+            break
+        case .MyTickets:
+            break
+        case .ForSale:
+            parseEventsData()
+            break
+        case .Null:
+            break
         }
-        
-        printDataModel()
     }
     
     private mutating func checkHtmlSourceCode() {
         guard htmlSourceCode != nil else {
-            state = DataModelState.Null
+            state = .Null
             return
         }
         if htmlSourceCode!.contains("Bilety Online - Logowanie") {
-            state = DataModelState.SignIn
+            state = .SignIn
         }
         if htmlSourceCode!.contains("Bilety Online - Kup bilet") {
-            state = DataModelState.BuyTicket
+            state = .BuyTicket
         }
+        if htmlSourceCode!.contains("Bilety Online - Moje bilety") {
+            state = .MyTickets
+        }
+        if htmlSourceCode!.contains("Bilety Online - W sprzedaży") {
+            state = .ForSale
+        }
+    }
+    
+    private mutating func parseEventsData() {
+    
+        func findFirstSubstringIndex(string: String, substring: String) -> Int? {
+            var index = 0
+            
+            for char in string {
+                if char == substring.first {
+                    let startOfFoundCharacter = string.index(string.startIndex, offsetBy: index)
+                    let lengthOfFoundCharacter = string.index(string.startIndex, offsetBy: (substring.count + index))
+                    
+                    if string[startOfFoundCharacter..<lengthOfFoundCharacter] == substring {
+                        return index
+                    }
+                }
+                index += 1
+            }
+            return nil
+        }
+        
+        func parseEventData(startIndex: Int?, endIndex: Int?) {
+            guard htmlSourceCode != nil && startIndex != nil && endIndex != nil else {
+                return
+            }
+            
+            let eventData = htmlSourceCode![startIndex!..<endIndex!]
+            
+            var startIndex = eventData.range(of: "<h5>")?.upperBound
+            var endIndex = eventData.range(of: "<div class=\"date\">")?.lowerBound
+            let nameData = eventData[startIndex!..<endIndex!]
+            
+            endIndex = nameData.range(of: "</h5>")?.lowerBound
+            let name = nameData[..<endIndex!]
+            
+            startIndex = eventData.range(of: "<div class=\"date\">")?.upperBound
+            endIndex = eventData.range(of: "<div class=\"p2\">")?.lowerBound
+            let dateData = eventData[startIndex!..<endIndex!]
+            
+            startIndex = dateData.range(of: "<div class=\"p1\">")?.upperBound
+            endIndex = dateData.range(of: "</div>")?.lowerBound
+            let date = dateData[startIndex!..<endIndex!]
+            
+            startIndex = eventData.range(of: "<div class=\"p2\">")?.upperBound
+            endIndex = eventData.range(of: "<div class=\"match\">")?.lowerBound
+            let timeData = eventData[startIndex!..<endIndex!]
+            
+            endIndex = timeData.range(of: "</div>")?.lowerBound
+            let time = timeData[..<endIndex!]
+            
+            startIndex = eventData.range(of: "<div class=\"c1\">")?.upperBound
+            endIndex = eventData.range(of: "<div class=\"c2\">")?.lowerBound
+            let hostData = eventData[startIndex!..<endIndex!]
+            
+            startIndex = hostData.range(of: "alt=\"")?.upperBound
+            endIndex = hostData.range(of: "\" />")?.lowerBound
+            let host = eventData[startIndex!..<endIndex!]
+            
+            startIndex = hostData.range(of: "<img src=\"")?.upperBound
+            endIndex = hostData.range(of: "\" alt")?.lowerBound
+            let hostImgLink = "https://ekibic.zaglebie.com" + eventData[startIndex!..<endIndex!]
+            
+            startIndex = eventData.range(of: "<div class=\"c2\">")?.upperBound
+            endIndex = eventData.range(of: "<div class=\"bg-img\">")?.lowerBound
+            let opponentData = eventData[startIndex!..<endIndex!]
+            
+            startIndex = opponentData.range(of: "alt=\"")?.upperBound
+            endIndex = opponentData.range(of: "\" />")?.lowerBound
+            let opponent = eventData[startIndex!..<endIndex!]
+            
+            startIndex = opponentData.range(of: "<img src=\"")?.upperBound
+            endIndex = opponentData.range(of: "\" alt")?.lowerBound
+            let opponentImgLink = "https://ekibic.zaglebie.com" + eventData[startIndex!..<endIndex!]
+            
+            startIndex = eventData.range(of: "<a href=\"")?.upperBound
+            endIndex = eventData.range(of: "\" class=\"btn btn-primary\"")?.lowerBound
+            let link = "https://ekibic.zaglebie.com" + String(eventData[startIndex!..<endIndex!])
+            
+            let event = Event(name: String(name), date: String(date), time: String(time),host: String(host), hostImgLink: String(hostImgLink), opponent: String(opponent), opponentImgLink: String(opponentImgLink), link: String(link))
+            events.append(event)
+        }
+        
+        let sIndex = findFirstSubstringIndex(string: htmlSourceCode!, substring: "item-event\">")
+        let eIndex = findFirstSubstringIndex(string: htmlSourceCode!, substring: "role=\"button\">Kup bilet</a>")
+        parseEventData(startIndex: sIndex, endIndex: eIndex)
     }
     
     private mutating func parseSectorsData() {
@@ -185,7 +282,14 @@ struct DataModel {
 
 extension DataModel {
     struct Event {
-        var name: String!
+        var name: String?
+        var date: String?
+        var time: String?
+        var host: String?
+        var hostImgLink: String?
+        var opponent: String?
+        var opponentImgLink: String?
+        var link: String?
     }
     
     struct Sector {
