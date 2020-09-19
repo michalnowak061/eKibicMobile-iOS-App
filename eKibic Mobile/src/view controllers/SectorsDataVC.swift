@@ -13,7 +13,7 @@ class SectorsDataVC: UIViewController {
     var afQueue = DispatchQueue.init(label: "afQueue")
     var viewQueue = DispatchQueue.main
     var url: String = dataModel.eKibicURL["home"] ?? ""
-    var barTitle: String = ""
+    var barPrompt: String = ""
     var sectors: [DataModel.Sector] = []
 
     override func viewDidLoad() {
@@ -24,7 +24,8 @@ class SectorsDataVC: UIViewController {
     }
     
     private func navigationBarSetup() {
-        navigationBar.topItem?.title = barTitle
+        navigationBar.topItem?.prompt = barPrompt
+        navigationBar.barStyle = .black
         navigationBar.barTintColor = UIColor.rgb(red: 208, green: 87, blue: 45)
         navigationBar.backgroundColor = UIColor.rgb(red: 208, green: 87, blue: 45)
         navigationBar.tintColor = UIColor.rgb(red: 208, green: 87, blue: 45)

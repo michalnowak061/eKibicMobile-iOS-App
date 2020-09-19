@@ -16,18 +16,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eKibicMobile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NIh-mm-ycc">
-                                <rect key="frame" x="28.5" y="412" width="357.5" height="72"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eKibicMobile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NIh-mm-ycc">
+                                <rect key="frame" x="20" y="64" width="374" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wszystkie prezentowane w aplikacji dane pochodzą z serwisu ekibic.zaglebie.com" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8k-fa-Psg">
+                                <rect key="frame" x="20" y="810.5" width="374" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" image="ekibic.png" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="72g-di-Lwm">
+                                <rect key="frame" x="0.0" y="136" width="414" height="674.5"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.81568627449999997" green="0.3411764706" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="NIh-mm-ycc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="SHe-uq-mlm"/>
-                            <constraint firstItem="NIh-mm-ycc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="tfH-dn-NpD"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="N8k-fa-Psg" secondAttribute="bottom" constant="20" id="1x2-FP-Nff"/>
+                            <constraint firstItem="72g-di-Lwm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HQI-Y1-YQR"/>
+                            <constraint firstItem="72g-di-Lwm" firstAttribute="top" secondItem="NIh-mm-ycc" secondAttribute="bottom" id="MOz-kV-JrN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="N8k-fa-Psg" secondAttribute="trailing" constant="20" id="Pgr-35-Trx"/>
+                            <constraint firstItem="NIh-mm-ycc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="RAC-GP-BFv"/>
+                            <constraint firstItem="N8k-fa-Psg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Zw1-5Y-umR"/>
+                            <constraint firstItem="N8k-fa-Psg" firstAttribute="top" secondItem="72g-di-Lwm" secondAttribute="bottom" id="gkS-vE-ENk"/>
+                            <constraint firstItem="72g-di-Lwm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hGc-w9-Yaf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NIh-mm-ycc" secondAttribute="trailing" constant="20" id="n37-dh-2CB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="72g-di-Lwm" secondAttribute="trailing" id="q8H-Gl-aqC"/>
+                            <constraint firstItem="72g-di-Lwm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sqB-4J-PgU"/>
+                            <constraint firstItem="NIh-mm-ycc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="uPZ-gJ-kVV"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,4 +55,7 @@
             <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ekibic.png" width="350" height="235"/>
+    </resources>
 </document>

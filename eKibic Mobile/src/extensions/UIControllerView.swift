@@ -16,7 +16,7 @@ public extension UIViewController {
         mainVC.modalPresentationStyle = .fullScreen
         mainVC.modalTransitionStyle = .crossDissolve
         
-        present(mainVC, animated: true, completion: nil)
+        present(mainVC, animated: false, completion: nil)
     }
     
     func presentSignInVC() {
@@ -26,7 +26,7 @@ public extension UIViewController {
         signInVC.modalPresentationStyle = .fullScreen
         signInVC.modalTransitionStyle = .crossDissolve
         
-        present(signInVC, animated: true, completion: nil)
+        present(signInVC, animated: false, completion: nil)
     }
     
     func presentEventsVC() {
@@ -36,19 +36,19 @@ public extension UIViewController {
         eventsVC.modalPresentationStyle = .fullScreen
         eventsVC.modalTransitionStyle = .coverVertical
         
-        present(eventsVC, animated: true, completion: nil)
+        present(eventsVC, animated: false, completion: nil)
     }
     
     func presentDataVC(title: String, url: String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let dataVC = storyboard.instantiateViewController(withIdentifier: "SectorsDataVC") as! SectorsDataVC
+        let dataVC = storyboard.instantiateViewController(withIdentifier: "DataVC") as! DataVC
         
         dataVC.modalPresentationStyle = .fullScreen
         dataVC.modalTransitionStyle = .coverVertical
-        dataVC.barTitle = title
+        dataVC.barPrompt = title
         dataVC.url = url
         
-        present(dataVC, animated: true, completion: nil)
+        present(dataVC, animated: false, completion: nil)
     }
 }
 
