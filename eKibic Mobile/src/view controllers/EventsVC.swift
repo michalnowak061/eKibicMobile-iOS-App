@@ -17,9 +17,26 @@ class EventsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        eventsCollectionView.delegate = self
-        eventsCollectionView.dataSource = self
+        navigationBarSetup()
+        eventsCollectionViewSetup()
         downloadData()
+    }
+    
+    private func navigationBarSetup() {
+        navigationBar.barTintColor = UIColor.rgb(red: 208, green: 87, blue: 45)
+        navigationBar.backgroundColor = UIColor.rgb(red: 208, green: 87, blue: 45)
+        navigationBar.tintColor = UIColor.rgb(red: 208, green: 87, blue: 45)
+    }
+    
+    private func eventsCollectionViewSetup() {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: self.eventsCollectionView.frame.width * 0.9,
+                                 height: self.eventsCollectionView.frame.height * 0.45)
+        
+        self.eventsCollectionView.collectionViewLayout = layout
+        self.eventsCollectionView.delegate = self
+        self.eventsCollectionView.dataSource = self
     }
     
     private func updateView() {
@@ -85,6 +102,7 @@ class EventsVC: UIViewController {
         }
     }
 
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
 }
 
@@ -95,6 +113,9 @@ extension EventsVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCVC", for: indexPath) as! EventCVC
+        
+        cell.layer.cornerRadius = 10
+        cell.layer.masksToBounds = true
         
         cell.nameLabel.text = dataModel.events[indexPath.row].name
         cell.dateLabel.text = dataModel.events[indexPath.row].date

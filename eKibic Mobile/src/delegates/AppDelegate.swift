@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UIApplication.statusBarBackgroundColor = UIColor.rgb(red: 208, green: 87, blue: 45)
         return true
     }
 
@@ -29,6 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+}
+
+extension UIApplication {
+    class var statusBarBackgroundColor: UIColor? {
+        get {
+            return (shared.value(forKey: "statusBar") as? UIView)?.backgroundColor
+        } set {
+            (shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = newValue
+        }
     }
 }
 

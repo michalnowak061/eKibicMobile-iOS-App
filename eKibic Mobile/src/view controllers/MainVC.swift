@@ -36,8 +36,6 @@ class MainVC: UIViewController {
             case .Null:
                 break
             }
-            
-            self.textView.text = dataModel.htmlSourceCode
         }
     }
     
@@ -68,6 +66,4 @@ class MainVC: UIViewController {
         }))
         self.present(alert, animated: true)
     }
-        
-    @IBOutlet weak var textView: UITextView!
 }

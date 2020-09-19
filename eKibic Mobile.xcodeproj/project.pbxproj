@@ -14,7 +14,7 @@
 		9D415A73250BD8F600C59AB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D415A71250BD8F600C59AB5 /* Main.storyboard */; };
 		9D415A75250BD8FD00C59AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D415A74250BD8FD00C59AB5 /* Assets.xcassets */; };
 		9D415A78250BD8FD00C59AB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D415A76250BD8FD00C59AB5 /* LaunchScreen.storyboard */; };
-		9D475212250FFBD500B9D115 /* DataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D475211250FFBD500B9D115 /* DataVC.swift */; };
+		9D475212250FFBD500B9D115 /* SectorsDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D475211250FFBD500B9D115 /* SectorsDataVC.swift */; };
 		9D4752142510040D00B9D115 /* UIControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4752132510040D00B9D115 /* UIControllerView.swift */; };
 		9DB07726250D19DA00986034 /* AlamofireSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07725250D19DA00986034 /* AlamofireSession.swift */; };
 		9DB07728250D1B5D00986034 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB07727250D1B5D00986034 /* DataModel.swift */; };
@@ -36,7 +36,7 @@
 		9D415A74250BD8FD00C59AB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D415A77250BD8FD00C59AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D415A79250BD8FD00C59AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9D475211250FFBD500B9D115 /* DataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataVC.swift; sourceTree = "<group>"; };
+		9D475211250FFBD500B9D115 /* SectorsDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorsDataVC.swift; sourceTree = "<group>"; };
 		9D4752132510040D00B9D115 /* UIControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControllerView.swift; sourceTree = "<group>"; };
 		9DB07725250D19DA00986034 /* AlamofireSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireSession.swift; sourceTree = "<group>"; };
 		9DB07727250D1B5D00986034 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
@@ -134,9 +134,9 @@
 			children = (
 				9DE9231A25122A8F00555DD8 /* cells */,
 				9D415A6F250BD8F600C59AB5 /* MainVC.swift */,
-				9DE9231625118B8500555DD8 /* EventsVC.swift */,
-				9D475211250FFBD500B9D115 /* DataVC.swift */,
 				9DB07729250F801A00986034 /* SignInVC.swift */,
+				9DE9231625118B8500555DD8 /* EventsVC.swift */,
+				9D475211250FFBD500B9D115 /* SectorsDataVC.swift */,
 			);
 			path = "view controllers";
 			sourceTree = "<group>";
@@ -214,7 +214,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 1170;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = mnowak061;
 				TargetAttributes = {
 					9D415A67250BD8F600C59AB5 = {
@@ -301,7 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D4752142510040D00B9D115 /* UIControllerView.swift in Sources */,
-				9D475212250FFBD500B9D115 /* DataVC.swift in Sources */,
+				9D475212250FFBD500B9D115 /* SectorsDataVC.swift in Sources */,
 				9DBB30C325128A3B00675F95 /* SectorCVC.swift in Sources */,
 				9DE9231C25122B0100555DD8 /* EventCVC.swift in Sources */,
 				9DE923192512155D00555DD8 /* String.swift in Sources */,
@@ -364,6 +364,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -424,6 +425,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

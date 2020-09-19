@@ -34,17 +34,17 @@ public extension UIViewController {
         let eventsVC = storyboard.instantiateViewController(withIdentifier: "EventsVC")
         
         eventsVC.modalPresentationStyle = .fullScreen
-        eventsVC.modalTransitionStyle = .crossDissolve
+        eventsVC.modalTransitionStyle = .coverVertical
         
         present(eventsVC, animated: true, completion: nil)
     }
     
     func presentDataVC(title: String, url: String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let dataVC = storyboard.instantiateViewController(withIdentifier: "DataVC") as! DataVC
+        let dataVC = storyboard.instantiateViewController(withIdentifier: "SectorsDataVC") as! SectorsDataVC
         
         dataVC.modalPresentationStyle = .fullScreen
-        dataVC.modalTransitionStyle = .crossDissolve
+        dataVC.modalTransitionStyle = .coverVertical
         dataVC.barTitle = title
         dataVC.url = url
         

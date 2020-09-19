@@ -49,6 +49,14 @@ struct DataModel {
         "OS NIEP": Sector.init(name: "OS NIEP", capacity: 0, freePlaces: 0, isOpen: false, color: (66, 142, 203)),
         "PRASA": Sector.init(name: "PRASA", capacity: 0, freePlaces: 0, isOpen: false, color: (27, 28, 27))
     ]
+    let sectorsDictionaryKeys = [ "A1", "A2",
+                                  "B1", "B2",
+                                  "C", "D",
+                                  "E1", "E2", "E3", "F0", "F1", "F2", "F3",
+                                  "G", "H1", "H2",
+                                  "VIP1", "VIP2", "SUPER VIP",
+                                  "OS NIEP", "PRASA"
+    ]
     
     public mutating func update() {
         checkHtmlSourceCode()
@@ -89,7 +97,6 @@ struct DataModel {
     }
     
     private mutating func parseEventsData() {
-    
         func findFirstSubstringIndex(string: String, substring: String) -> Int? {
             var index = 0
             
@@ -180,103 +187,196 @@ struct DataModel {
             }
             
             let sectorData = htmlSourceCode![startIndex!..<endIndex!]
-            
+        
             if sectorData.contains("disabled") {
                 sectorsDictionary[sectorName]?.freePlaces = 0
                 sectorsDictionary[sectorName]?.isOpen = false
             }
             else {
-                let startIndex = sectorData.range(of: "Wolnych miejsc: ")?.upperBound
-                let endIndex = sectorData.range(of: "</span></a>")?.lowerBound
+                var startIndex = sectorData.range(of: "Wolnych miejsc: ")?.upperBound
+                var endIndex = sectorData.range(of: "</span></a>")?.lowerBound
                 let freePlaces: Int = Int(String(sectorData[startIndex!..<endIndex!])) ?? 0
+                
+                startIndex = sectorData.range(of: "href=\"")?.upperBound
+                endIndex = sectorData.range(of: "style=\"white-space: normal;\"")?.lowerBound
+                let linkData = String(sectorData[startIndex!..<endIndex!])
+                
+                startIndex = linkData.range(of: "/BuyTicket/SeatsSelect?sectorId=")?.upperBound
+                endIndex = linkData.range(of: "\"")?.lowerBound
+                let link = String(linkData[startIndex!..<endIndex!])
+                
                 sectorsDictionary[sectorName]?.freePlaces = freePlaces
                 sectorsDictionary[sectorName]?.isOpen = true
+                sectorsDictionary[sectorName]?.link = "https://ekibic.zaglebie.com/BuyTicket/SeatsSelect?sectorId=" + link
             }
+            sectorsDictionary[sectorName]?.isLoaded = true
         }
         
-        var sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_121_266\">")?.lowerBound
-        var eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
-        parseSectorData(sectorName: "SUPER VIP", startIndex: sIndex!, endIndex: eIndex!)
+        func parseMoreSectorData(sectorName: String) {
+            let sectorData = sectorsDictionary[sectorName]?.htmlSourceCode
+            
+            guard sectorData != nil && sectorsDictionary[sectorName]?.link != nil else {
+                return
+            }
+            
+            var capacity = 0
+            
+            sectorData!.enumerateLines { (line, _) in
+                if line.contains("unselectable=\"on\"") {
+                    capacity += 1
+                }
+            }
+            sectorsDictionary[sectorName]?.capacity = capacity
+        }
         
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
-        parseSectorData(sectorName: "VIP1", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_267\">")?.lowerBound
-        parseSectorData(sectorName: "VIP2", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_267\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_29\">")?.lowerBound
-        parseSectorData(sectorName: "PRASA", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_29\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_48\">")?.lowerBound
-        parseSectorData(sectorName: "A1", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_48\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_46\">")?.lowerBound
-        parseSectorData(sectorName: "A2", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_46\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_269\">")?.lowerBound
-        parseSectorData(sectorName: "B1", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_269\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_271\">")?.lowerBound
-        parseSectorData(sectorName: "B2", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_271\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_272\">")?.lowerBound
-        parseSectorData(sectorName: "E3", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_272\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_273\">")?.lowerBound
-        parseSectorData(sectorName: "F2", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_273\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_270\">")?.lowerBound
-        parseSectorData(sectorName: "F3", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_270\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_43\">")?.lowerBound
-        parseSectorData(sectorName: "E2", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_43\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_42\">")?.lowerBound
-        parseSectorData(sectorName: "E1", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_42\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_1020\">")?.lowerBound
-        parseSectorData(sectorName: "F0", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_1020\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_45\">")?.lowerBound
-        parseSectorData(sectorName: "F1", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_45\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_274\">")?.lowerBound
-        parseSectorData(sectorName: "C", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_274\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_40\">")?.lowerBound
-        parseSectorData(sectorName: "H2", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_40\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_127_44\">")?.lowerBound
-        parseSectorData(sectorName: "H1", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_127_44\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_41\">")?.lowerBound
-        parseSectorData(sectorName: "D", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_41\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_283\">")?.lowerBound
-        parseSectorData(sectorName: "G", startIndex: sIndex!, endIndex: eIndex!)
-        
-        sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_283\">")?.lowerBound
-        eIndex = htmlSourceCode!.range(of: "Podgląd mapy stadionu")?.lowerBound
-        parseSectorData(sectorName: "OS NIEP", startIndex: sIndex!, endIndex: eIndex!)
+        if sectorsDictionary["SUPER VIP"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_121_266\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
+            parseSectorData(sectorName: "SUPER VIP", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "SUPER VIP")
+        }
+        if sectorsDictionary["VIP1"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_47\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
+            parseSectorData(sectorName: "VIP1", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "VIP1")
+        }
+        if sectorsDictionary["VIP2"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_268\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_267\">")?.lowerBound
+            parseSectorData(sectorName: "VIP2", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "VIP2")
+        }
+        if sectorsDictionary["PRASA"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_122_267\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_29\">")?.lowerBound
+            parseSectorData(sectorName: "PRASA", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "PRASA")
+        }
+        if sectorsDictionary["A1"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_29\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_48\">")?.lowerBound
+            parseSectorData(sectorName: "A1", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "A1")
+        }
+        if sectorsDictionary["A2"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_123_48\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_46\">")?.lowerBound
+            parseSectorData(sectorName: "A2", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "A2")
+        }
+        if sectorsDictionary["B1"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_46\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_269\">")?.lowerBound
+            parseSectorData(sectorName: "B1", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "B1")
+        }
+        if sectorsDictionary["B2"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_125_269\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_271\">")?.lowerBound
+            parseSectorData(sectorName: "B2", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "B2")
+        }
+        if sectorsDictionary["E3"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_271\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_272\">")?.lowerBound
+            parseSectorData(sectorName: "E3", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "E3")
+        }
+        if sectorsDictionary["F2"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_272\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_273\">")?.lowerBound
+            parseSectorData(sectorName: "F2", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "F2")
+        }
+        if sectorsDictionary["F3"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_273\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_270\">")?.lowerBound
+            parseSectorData(sectorName: "F3", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "F3")
+        }
+        if sectorsDictionary["E2"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_270\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_43\">")?.lowerBound
+            parseSectorData(sectorName: "E2", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "E2")
+        }
+        if sectorsDictionary["E1"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_43\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_42\">")?.lowerBound
+            parseSectorData(sectorName: "E1", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "E1")
+        }
+        if sectorsDictionary["F0"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_42\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_1020\">")?.lowerBound
+            parseSectorData(sectorName: "F0", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "F0")
+        }
+        if sectorsDictionary["F1"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_1020\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_45\">")?.lowerBound
+            parseSectorData(sectorName: "F1", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "F1")
+        }
+        if sectorsDictionary["C"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_45\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_274\">")?.lowerBound
+            parseSectorData(sectorName: "C", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "C")
+        }
+        if sectorsDictionary["H2"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_274\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_40\">")?.lowerBound
+            parseSectorData(sectorName: "H2", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "H2")
+        }
+        if sectorsDictionary["H1"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_124_40\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_127_44\">")?.lowerBound
+            parseSectorData(sectorName: "H1", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "H1")
+        }
+        if sectorsDictionary["D"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_127_44\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_41\">")?.lowerBound
+            parseSectorData(sectorName: "D", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "D")
+        }
+        if sectorsDictionary["G"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_41\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_283\">")?.lowerBound
+            parseSectorData(sectorName: "G", startIndex: sIndex!, endIndex: eIndex!)
+        }
+        else {
+            parseMoreSectorData(sectorName: "G")
+        }
+        if sectorsDictionary["OS NIEP"]?.isLoaded == false {
+            let sIndex = htmlSourceCode!.range(of: "<div class=\"stadium_map_sector_small col-xs-6 col-sm-6\" id=\"sectorButtonDiv_126_283\">")?.lowerBound
+            let eIndex = htmlSourceCode!.range(of: "Podgląd mapy stadionu")?.lowerBound
+            parseSectorData(sectorName: "OS NIEP", startIndex: sIndex!, endIndex: eIndex!)
+        } else {
+            parseMoreSectorData(sectorName: "OS NIEP")
+        }
     }
 }
 
@@ -296,8 +396,25 @@ extension DataModel {
         var name = ""
         var capacity = 0
         var freePlaces = 0
-        var occupiedPlaces = 0
+        var occupiedPlaces: Int {
+            get {
+                let occupied = capacity - freePlaces
+                return occupied >= 0 ? occupied : 0
+            }
+        }
+        var infill: Float {
+            get {
+                guard capacity != 0 else {
+                    return 0
+                }
+                let infill = Float(occupiedPlaces) / Float(capacity)
+                return infill
+            }
+        }
         var isOpen = false
+        var isLoaded = false
         var color: (r: Int, g: Int, b: Int) = (0, 0, 0)
+        var link: String? = nil
+        var htmlSourceCode: String? = nil
     }
 }

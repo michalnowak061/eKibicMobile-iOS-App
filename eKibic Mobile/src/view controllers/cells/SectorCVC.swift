@@ -13,4 +13,6 @@ class SectorCVC: UICollectionViewCell {
     @IBOutlet weak var capacityLabel: UILabel!
     @IBOutlet weak var freePlacesLabel: UILabel!
     @IBOutlet weak var occupiedPlacesLabel: UILabel!
+    @IBOutlet weak var sectorInfillProgressView: UIProgressView!
+    @IBOutlet weak var sectorInfillLabel: UILabel!
 }
