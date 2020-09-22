@@ -16,8 +16,13 @@ class AlamofireSession {
     
     public func dowloadHtmlSourceCode(url: String) {
         afHandle.request(url).responseString { response in
-            if let html = String(bytes: response.data!, encoding: String.Encoding.utf8) {
-                self.htmlSourceCode = html
+            if response.data != nil {
+                if let html = String(bytes: response.data!, encoding: String.Encoding.utf8) {
+                    self.htmlSourceCode = html
+                }
+                else {
+                    self.htmlSourceCode = "error"
+                }
             }
             else {
                 self.htmlSourceCode = "error"

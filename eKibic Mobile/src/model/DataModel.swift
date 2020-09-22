@@ -57,6 +57,13 @@ struct DataModel {
                                   "VIP1", "VIP2", "SUPER VIP",
                                   "OS NIEP", "PRASA"
     ]
+    var stadium: Stadium?
+    
+    init() {
+        stadium = Stadium()
+        stadium?.sectors = sectorsDictionary
+        stadium?.sectorsKeys = sectorsDictionaryKeys
+    }
     
     public mutating func update() {
         checkHtmlSourceCode()
@@ -126,52 +133,52 @@ struct DataModel {
             let nameData = eventData[startIndex!..<endIndex!]
             
             endIndex = nameData.range(of: "</h5>")?.lowerBound
-            let name = nameData[..<endIndex!]
+            let name: String = String(nameData[..<endIndex!])
             
             startIndex = eventData.range(of: "<div class=\"date\">")?.upperBound
             endIndex = eventData.range(of: "<div class=\"p2\">")?.lowerBound
-            let dateData = eventData[startIndex!..<endIndex!]
+            let dateData: String = String(eventData[startIndex!..<endIndex!])
             
             startIndex = dateData.range(of: "<div class=\"p1\">")?.upperBound
             endIndex = dateData.range(of: "</div>")?.lowerBound
-            let date = dateData[startIndex!..<endIndex!]
+            let date: String = String(dateData[startIndex!..<endIndex!])
             
             startIndex = eventData.range(of: "<div class=\"p2\">")?.upperBound
             endIndex = eventData.range(of: "<div class=\"match\">")?.lowerBound
-            let timeData = eventData[startIndex!..<endIndex!]
+            let timeData: String = String(eventData[startIndex!..<endIndex!])
             
             endIndex = timeData.range(of: "</div>")?.lowerBound
-            let time = timeData[..<endIndex!]
+            let time: String = String(timeData[..<endIndex!])
             
             startIndex = eventData.range(of: "<div class=\"c1\">")?.upperBound
             endIndex = eventData.range(of: "<div class=\"c2\">")?.lowerBound
-            let hostData = eventData[startIndex!..<endIndex!]
+            let hostData: Substring = eventData[startIndex!..<endIndex!]
             
             startIndex = hostData.range(of: "alt=\"")?.upperBound
             endIndex = hostData.range(of: "\" />")?.lowerBound
-            let host = eventData[startIndex!..<endIndex!]
+            let host: String = String(eventData[startIndex!..<endIndex!])
             
             startIndex = hostData.range(of: "<img src=\"")?.upperBound
             endIndex = hostData.range(of: "\" alt")?.lowerBound
-            let hostImgLink = "https://ekibic.zaglebie.com" + eventData[startIndex!..<endIndex!]
+            let hostImgLink: String = "https://ekibic.zaglebie.com" + eventData[startIndex!..<endIndex!]
             
             startIndex = eventData.range(of: "<div class=\"c2\">")?.upperBound
             endIndex = eventData.range(of: "<div class=\"bg-img\">")?.lowerBound
-            let opponentData = eventData[startIndex!..<endIndex!]
+            let opponentData: Substring = eventData[startIndex!..<endIndex!]
             
             startIndex = opponentData.range(of: "alt=\"")?.upperBound
             endIndex = opponentData.range(of: "\" />")?.lowerBound
-            let opponent = eventData[startIndex!..<endIndex!]
+            let opponent: String = String(eventData[startIndex!..<endIndex!])
             
             startIndex = opponentData.range(of: "<img src=\"")?.upperBound
             endIndex = opponentData.range(of: "\" alt")?.lowerBound
-            let opponentImgLink = "https://ekibic.zaglebie.com" + eventData[startIndex!..<endIndex!]
+            let opponentImgLink: String = "https://ekibic.zaglebie.com" + eventData[startIndex!..<endIndex!]
             
             startIndex = eventData.range(of: "<a href=\"")?.upperBound
             endIndex = eventData.range(of: "\" class=\"btn btn-primary\"")?.lowerBound
-            let link = "https://ekibic.zaglebie.com" + String(eventData[startIndex!..<endIndex!])
+            let link: String = "https://ekibic.zaglebie.com" + String(eventData[startIndex!..<endIndex!])
             
-            let event = Event(name: String(name), date: String(date), time: String(time),host: String(host), hostImgLink: String(hostImgLink), opponent: String(opponent), opponentImgLink: String(opponentImgLink), link: String(link))
+            let event = Event(name: String(htmlEncodedString: name), date: String(htmlEncodedString: date), time: String(htmlEncodedString: time),host: String(htmlEncodedString: host), hostImgLink: String(htmlEncodedString:  hostImgLink), opponent: String(htmlEncodedString: opponent), opponentImgLink: String(htmlEncodedString: opponentImgLink), link: String(link))
             events.append(event)
         }
         
@@ -377,44 +384,8 @@ struct DataModel {
         } else {
             parseMoreSectorData(sectorName: "OS NIEP")
         }
-    }
-}
-
-extension DataModel {
-    struct Event {
-        var name: String?
-        var date: String?
-        var time: String?
-        var host: String?
-        var hostImgLink: String?
-        var opponent: String?
-        var opponentImgLink: String?
-        var link: String?
-    }
-    
-    struct Sector {
-        var name = ""
-        var capacity = 0
-        var freePlaces = 0
-        var occupiedPlaces: Int {
-            get {
-                let occupied = capacity - freePlaces
-                return occupied >= 0 ? occupied : 0
-            }
-        }
-        var infill: Float {
-            get {
-                guard capacity != 0 else {
-                    return 0
-                }
-                let infill = Float(occupiedPlaces) / Float(capacity)
-                return infill
-            }
-        }
-        var isOpen = false
-        var isLoaded = false
-        var color: (r: Int, g: Int, b: Int) = (0, 0, 0)
-        var link: String? = nil
-        var htmlSourceCode: String? = nil
+        
+        stadium?.sectors = sectorsDictionary
+        stadium?.sectorsKeys = sectorsDictionaryKeys
     }
 }

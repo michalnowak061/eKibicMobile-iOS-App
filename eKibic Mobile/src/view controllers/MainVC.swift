@@ -41,9 +41,10 @@ class MainVC: UIViewController {
     
     private func downloadData() {
         afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["myTickets"] ?? "")
+        dataModel.htmlSourceCode = nil
         
         afQueue.async {
-            while self.afSession.htmlSourceCode == nil {
+            while self.afSession.htmlSourceCode == nil && self.afSession.htmlSourceCode != "error" {
                 usleep(100000)
             }
             
@@ -51,7 +52,7 @@ class MainVC: UIViewController {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
             }
             else {
-                print("Error - downloadData")
+                self.presentServerError()
             }
             
             dataModel.update()
@@ -63,6 +64,14 @@ class MainVC: UIViewController {
         let alert = UIAlertController(title: "Pierwsze uruchomienie", message: "Pierwsze uruchomienie aplikacji wymaga zalogowania się na platformie ekibic wraz z zaznaczoną opcją \"zapamiętaj mnie\".", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {action in
             self.presentSignInVC()
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    private func presentServerError() {
+        let alert = UIAlertController(title: "Brak połączenia", message: "Brak połączenia z serwisem ekibic.zaglebie.com.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
+            self.viewDidLoad()
         }))
         self.present(alert, animated: true)
     }

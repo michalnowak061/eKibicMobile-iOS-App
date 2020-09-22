@@ -9,18 +9,15 @@
 import UIKit
 
 class SectorsDataVC: UIViewController {
-    var afSession = AlamofireSession()
-    var afQueue = DispatchQueue.init(label: "afQueue")
-    var viewQueue = DispatchQueue.main
-    var url: String = dataModel.eKibicURL["home"] ?? ""
     var barPrompt: String = ""
-    var sectors: [DataModel.Sector] = []
+    var sectors: [Sector] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBarSetup()
         sectorsCollectionViewSetup()
-        downloadData(url: url)
+        loadSectorsFromDictionary()
+        updateView()
     }
     
     private func navigationBarSetup() {
@@ -42,65 +39,21 @@ class SectorsDataVC: UIViewController {
     }
     
     private func updateView() {
-        viewQueue.sync {
-            switch dataModel.state {
-            case .SignIn:
-                presentSignInVC()
-                break
-            case .BuyTicket:
-                break
-            case .MyTickets:
-                break
-            case .ForSale:
-                break
-            case .Null:
-                break
-            }
-            
-            sectorsCollectionView.reloadData()
+        switch dataModel.state {
+        case .SignIn:
+            presentSignInVC()
+            break
+        case .BuyTicket:
+            break
+        case .MyTickets:
+            break
+        case .ForSale:
+            break
+        case .Null:
+            break
         }
-    }
-    
-    private func downloadData(url: String) {
-        // Sectors data Queue
-        afQueue.async {
-            self.afSession.htmlSourceCode = nil
-            self.afSession.dowloadHtmlSourceCode(url: url)
-            
-            while self.afSession.htmlSourceCode == nil {
-                usleep(1000)
-            }
-            if self.afSession.htmlSourceCode != "error" {
-                dataModel.htmlSourceCode = self.afSession.htmlSourceCode
-            }
-            else {
-                print("Error - downloadData")
-            }
-            dataModel.update()
-            self.loadSectorsFromDictionary()
-        }
-        // More Sectors data Queue
-        afQueue.async {
-            for sector in self.sectors {
-                if let link = sector.link {
-                    self.afSession.htmlSourceCode = nil
-                    self.afSession.dowloadHtmlSourceCode(url: link)
-                    
-                    while self.afSession.htmlSourceCode == nil {
-                        usleep(1000)
-                    }
-                    if self.afSession.htmlSourceCode != "error" {
-                        dataModel.sectorsDictionary[sector.name]?.htmlSourceCode = self.afSession.htmlSourceCode
-                    }
-                    else {
-                        print("Error - downloadData")
-                    }
-                }
-            }
-            dataModel.update()
-            self.loadSectorsFromDictionary()
-            self.updateView()
-        }
+        
+        sectorsCollectionView.reloadData()
     }
     
     private func loadSectorsFromDictionary() {

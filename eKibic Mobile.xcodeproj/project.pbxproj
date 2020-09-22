@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		50863C643FCBDC9AAEAF539B /* Pods_eKibic_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C23961E53B1662E9CEC546 /* Pods_eKibic_Mobile.framework */; };
 		9D16EE5D25162FE50031CF4B /* StadiumDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D16EE5C25162FE50031CF4B /* StadiumDataVC.swift */; };
+		9D28475B251959F200D44FAA /* Sector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D28475A251959F200D44FAA /* Sector.swift */; };
+		9D28475E25195A2600D44FAA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D28475D25195A2600D44FAA /* Event.swift */; };
+		9D28476125195BDC00D44FAA /* Stadium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D28476025195BDC00D44FAA /* Stadium.swift */; };
 		9D415A6C250BD8F600C59AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6B250BD8F600C59AB5 /* AppDelegate.swift */; };
 		9D415A6E250BD8F600C59AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6D250BD8F600C59AB5 /* SceneDelegate.swift */; };
 		9D415A70250BD8F600C59AB5 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D415A6F250BD8F600C59AB5 /* MainVC.swift */; };
@@ -33,6 +36,9 @@
 /* Begin PBXFileReference section */
 		9BDC54566099FEFE452892FD /* Pods-eKibic Mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eKibic Mobile.release.xcconfig"; path = "Target Support Files/Pods-eKibic Mobile/Pods-eKibic Mobile.release.xcconfig"; sourceTree = "<group>"; };
 		9D16EE5C25162FE50031CF4B /* StadiumDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StadiumDataVC.swift; sourceTree = "<group>"; };
+		9D28475A251959F200D44FAA /* Sector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sector.swift; sourceTree = "<group>"; };
+		9D28475D25195A2600D44FAA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		9D28476025195BDC00D44FAA /* Stadium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stadium.swift; sourceTree = "<group>"; };
 		9D415A68250BD8F600C59AB5 /* eKibic Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eKibic Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D415A6B250BD8F600C59AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D415A6D250BD8F600C59AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +181,9 @@
 			children = (
 				9DB07725250D19DA00986034 /* AlamofireSession.swift */,
 				9DB07727250D1B5D00986034 /* DataModel.swift */,
+				9D28475D25195A2600D44FAA /* Event.swift */,
+				9D28475A251959F200D44FAA /* Sector.swift */,
+				9D28476025195BDC00D44FAA /* Stadium.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -329,10 +338,13 @@
 				9DE9231C25122B0100555DD8 /* EventCVC.swift in Sources */,
 				9DE923192512155D00555DD8 /* String.swift in Sources */,
 				9DB07728250D1B5D00986034 /* DataModel.swift in Sources */,
+				9D28475B251959F200D44FAA /* Sector.swift in Sources */,
+				9D28475E25195A2600D44FAA /* Event.swift in Sources */,
 				9D415A70250BD8F600C59AB5 /* MainVC.swift in Sources */,
 				9DB0772A250F801A00986034 /* SignInVC.swift in Sources */,
 				9DE9231725118B8500555DD8 /* EventsVC.swift in Sources */,
 				9DBB30C52512AB9700675F95 /* UIColor.swift in Sources */,
+				9D28476125195BDC00D44FAA /* Stadium.swift in Sources */,
 				9DB07726250D19DA00986034 /* AlamofireSession.swift in Sources */,
 				9D16EE5D25162FE50031CF4B /* StadiumDataVC.swift in Sources */,
 				9D415A6C250BD8F600C59AB5 /* AppDelegate.swift in Sources */,

@@ -9,6 +9,9 @@
 import UIKit
 
 class DataVC: UIViewController {
+    var afSession = AlamofireSession()
+    var afQueue = DispatchQueue.init(label: "afQueue")
+    var viewQueue = DispatchQueue.main
     var url: String = ""
     var barPrompt: String = ""
     
@@ -19,18 +22,24 @@ class DataVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSubViews()
         pageControll.numberOfPages = subViewControllers.count
         scrollView.delegate = self
         scrollView.contentSize.height = 0
+        activityIndicatorView.startAnimating()
+        downloadData(url: url)
+    }
+    
+    private func updateView() {
+        viewQueue.sync {
+            self.loadSubViews()
+        }
     }
     
     private func loadSubViews() {
         let firstSubView = subViewControllers[0] as! StadiumDataVC
         let secondSubView = subViewControllers[1] as! SectorsDataVC
-        firstSubView.url = url
         firstSubView.barPrompt = barPrompt
-        secondSubView.url = url
+        firstSubView.url = url
         secondSubView.barPrompt = barPrompt
         
         var frame = CGRect.zero
@@ -51,6 +60,47 @@ class DataVC: UIViewController {
         scrollView.contentSize = CGSize(width: (scrollView.frame.size.width * CGFloat(subViewControllers.count)), height: scrollView.frame.size.height)
     }
     
+    private func downloadData(url: String) {
+        // Sectors data Queue
+        afQueue.async {
+            self.afSession.htmlSourceCode = nil
+            self.afSession.dowloadHtmlSourceCode(url: url)
+            
+            while self.afSession.htmlSourceCode == nil {
+                usleep(1000)
+            }
+            if self.afSession.htmlSourceCode != "error" {
+                dataModel.htmlSourceCode = self.afSession.htmlSourceCode
+            }
+            else {
+                print("Error - downloadData")
+            }
+            dataModel.update()
+        }
+        // More Sectors data Queue
+        afQueue.async {
+            for sector in dataModel.stadium!.sectors {
+                if let link = sector.value.link {
+                    self.afSession.htmlSourceCode = nil
+                    self.afSession.dowloadHtmlSourceCode(url: link)
+                    
+                    while self.afSession.htmlSourceCode == nil {
+                        usleep(1000)
+                    }
+                    if self.afSession.htmlSourceCode != "error" {
+                        dataModel.sectorsDictionary[sector.value.name]?.htmlSourceCode = self.afSession.htmlSourceCode
+                    }
+                    else {
+                        print("Error - downloadData")
+                    }
+                }
+            }
+            dataModel.update()
+            self.updateView()
+        }
+    }
+    
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageControll: UIPageControl!
 }
