@@ -38,4 +38,13 @@ struct Stadium {
             return occupiedPlaces
         }
     }
+    var infill: Float {
+        get {
+            guard capacity != 0 else {
+                return 0
+            }
+            let infill = Float(occupiedPlaces) / Float(capacity)
+            return infill
+        }
+    }
 }

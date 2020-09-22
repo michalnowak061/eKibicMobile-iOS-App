@@ -9,6 +9,7 @@
 import UIKit
 
 class SectorsDataVC: UIViewController {
+    var viewQueue = DispatchQueue.main
     var barPrompt: String = ""
     var sectors: [Sector] = []
 
@@ -39,21 +40,23 @@ class SectorsDataVC: UIViewController {
     }
     
     private func updateView() {
-        switch dataModel.state {
-        case .SignIn:
-            presentSignInVC()
-            break
-        case .BuyTicket:
-            break
-        case .MyTickets:
-            break
-        case .ForSale:
-            break
-        case .Null:
-            break
+        viewQueue.async {
+            switch dataModel.state {
+            case .SignIn:
+                self.presentSignInVC()
+                break
+            case .BuyTicket:
+                break
+            case .MyTickets:
+                break
+            case .ForSale:
+                break
+            case .Null:
+                break
+            }
+            
+            self.sectorsCollectionView.reloadData()
         }
-        
-        sectorsCollectionView.reloadData()
     }
     
     private func loadSectorsFromDictionary() {
@@ -65,10 +68,6 @@ class SectorsDataVC: UIViewController {
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var sectorsCollectionView: UICollectionView!
-    
-    @IBAction func backButtonPressed(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 extension SectorsDataVC: UICollectionViewDelegate, UICollectionViewDataSource {

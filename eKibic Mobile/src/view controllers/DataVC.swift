@@ -25,13 +25,15 @@ class DataVC: UIViewController {
         pageControll.numberOfPages = subViewControllers.count
         scrollView.delegate = self
         scrollView.contentSize.height = 0
-        activityIndicatorView.startAnimating()
         downloadData(url: url)
     }
     
     private func updateView() {
         viewQueue.sync {
             self.loadSubViews()
+            
+            self.activityIndicatorView.isHidden = true
+            self.activityIndicatorView.stopAnimating()
         }
     }
     
@@ -39,7 +41,6 @@ class DataVC: UIViewController {
         let firstSubView = subViewControllers[0] as! StadiumDataVC
         let secondSubView = subViewControllers[1] as! SectorsDataVC
         firstSubView.barPrompt = barPrompt
-        firstSubView.url = url
         secondSubView.barPrompt = barPrompt
         
         var frame = CGRect.zero
@@ -61,6 +62,9 @@ class DataVC: UIViewController {
     }
     
     private func downloadData(url: String) {
+        activityIndicatorView.isHidden = false
+        activityIndicatorView.startAnimating()
+        
         // Sectors data Queue
         afQueue.async {
             self.afSession.htmlSourceCode = nil
@@ -73,10 +77,12 @@ class DataVC: UIViewController {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
             }
             else {
-                print("Error - downloadData")
+                self.presentServerError()
             }
+            
             dataModel.update()
         }
+        
         // More Sectors data Queue
         afQueue.async {
             for sector in dataModel.stadium!.sectors {
@@ -91,13 +97,25 @@ class DataVC: UIViewController {
                         dataModel.sectorsDictionary[sector.value.name]?.htmlSourceCode = self.afSession.htmlSourceCode
                     }
                     else {
-                        print("Error - downloadData")
+                        self.presentServerError()
+                        break
                     }
                 }
             }
-            dataModel.update()
-            self.updateView()
+            
+            if self.afSession.htmlSourceCode != "error" {
+                dataModel.update()
+                self.updateView()
+            }
         }
+    }
+    
+    private func presentServerError() {
+        let alert = UIAlertController(title: "Brak połączenia", message: "Brak połączenia z serwisem ekibic.zaglebie.com.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
+            self.viewDidLoad()
+        }))
+        self.present(alert, animated: true)
     }
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -109,9 +127,5 @@ extension DataVC: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = scrollView.contentOffset.x / scrollView.frame.size.width
         pageControll.currentPage = Int(pageNumber)
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        //updateSubViews()
     }
 }

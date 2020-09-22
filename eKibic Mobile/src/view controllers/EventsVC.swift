@@ -56,10 +56,18 @@ class EventsVC: UIViewController {
             }
             
             eventsCollectionView.reloadData()
+            
+            self.activityIndicatorView.stopAnimating()
+            self.activityIndicatorView.isHidden = true
+            self.loadingLabel.isHidden = true
         }
     }
     
     private func downloadData() {
+        activityIndicatorView.startAnimating()
+        activityIndicatorView.isHidden = false
+        loadingLabel.isHidden = false
+        
         // Download HTML code queue
         afQueue.async {
             self.afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["forSale"] ?? "")
@@ -70,12 +78,11 @@ class EventsVC: UIViewController {
             
             if self.afSession.htmlSourceCode != "error" {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
+                dataModel.update()
             }
             else {
-                print("Error - downloadData")
+                self.presentServerError()
             }
-            
-            dataModel.update()
         }
         // Download images Queue
         afQueue.async {
@@ -97,13 +104,23 @@ class EventsVC: UIViewController {
                 self.hostsImages.append(self.afSession.image!)
                 self.afSession.image = nil
             }
-    
+            
             self.updateView()
         }
+    }
+    
+    private func presentServerError() {
+        let alert = UIAlertController(title: "Brak połączenia", message: "Brak połączenia z serwisem ekibic.zaglebie.com.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
+            self.downloadData()
+        }))
+        self.present(alert, animated: true)
     }
 
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var loadingLabel: UILabel!
 }
 
 extension EventsVC: UICollectionViewDelegate, UICollectionViewDataSource {

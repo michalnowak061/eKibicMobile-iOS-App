@@ -50,13 +50,12 @@ class MainVC: UIViewController {
             
             if self.afSession.htmlSourceCode != "error" {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
+                dataModel.update()
+                self.updateView()
             }
             else {
                 self.presentServerError()
             }
-            
-            dataModel.update()
-            self.updateView()
         }
     }
     
