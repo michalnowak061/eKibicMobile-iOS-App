@@ -50,5 +50,21 @@ public extension UIViewController {
         
         present(dataVC, animated: false, completion: nil)
     }
+    
+    func presentTimeoutError() {
+        let alert = UIAlertController(title: "Przekroczono limit czasu żądania", message: "Przekroczono limit czasu żądania", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
+            self.viewDidLoad()
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    func presentServerError() {
+        let alert = UIAlertController(title: "Brak połączenia", message: "Brak połączenia z serwisem ekibic.zaglebie.com.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
+            self.viewDidLoad()
+        }))
+        self.present(alert, animated: true)
+    }
 }
 

@@ -54,7 +54,6 @@ class SectorsDataVC: UIViewController {
             case .Null:
                 break
             }
-            
             self.sectorsCollectionView.reloadData()
         }
     }

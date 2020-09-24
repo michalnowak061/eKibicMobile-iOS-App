@@ -35,7 +35,7 @@ class AlamofireSession {
             guard response.data != nil else {
                 return
             }
-            self.image = UIImage(data: response.data!, scale:1)
+            self.image = UIImage(data: response.data!, scale: 1)
         }
     }
 }

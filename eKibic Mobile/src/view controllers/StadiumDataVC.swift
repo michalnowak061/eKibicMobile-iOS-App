@@ -34,10 +34,10 @@ class StadiumDataVC: UIViewController {
     }
     
     private func updateView() {
-        guard dataModel.stadium != nil else {
-            return
-        }
         viewQueue.async {
+            guard dataModel.stadium != nil else {
+                return
+            }
             self.stadiumCapacityLabel.text = String(dataModel.stadium!.capacity)
             self.stadiumOccupiedPlacesLabel.text = String(dataModel.stadium!.occupiedPlaces)
             self.stadiumFreePlacesLabel.text = String(dataModel.stadium!.freePlaces)

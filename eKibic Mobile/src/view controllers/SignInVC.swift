@@ -58,19 +58,28 @@ class SignInVC: UIViewController, WKUIDelegate {
             self.afSession.htmlSourceCode = nil
             self.afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["myTickets"] ?? "")
             
+            var timerCounter = 0
+            let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                timerCounter += 1
+            }
+            
             while self.afSession.htmlSourceCode == nil {
+                if timerCounter >= 10 {
+                    self.presentTimeoutError()
+                    break
+                }
                 usleep(100000)
             }
             
             if self.afSession.htmlSourceCode != "error" {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
+                dataModel.update()
+                self.updateView()
             }
             else {
                 print("Error - downloadData")
             }
-            
-            dataModel.update()
-            self.updateView()
+            timeoutTimer.invalidate()
         }
     }
     

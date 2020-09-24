@@ -22,6 +22,7 @@ class DataVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        pageControll.isHidden = true
         pageControll.numberOfPages = subViewControllers.count
         scrollView.delegate = self
         scrollView.contentSize.height = 0
@@ -34,6 +35,7 @@ class DataVC: UIViewController {
             
             self.activityIndicatorView.isHidden = true
             self.activityIndicatorView.stopAnimating()
+            self.pageControll.isHidden = false
         }
     }
     
@@ -79,7 +81,6 @@ class DataVC: UIViewController {
             else {
                 self.presentServerError()
             }
-            
             dataModel.update()
         }
         
@@ -108,14 +109,6 @@ class DataVC: UIViewController {
                 self.updateView()
             }
         }
-    }
-    
-    private func presentServerError() {
-        let alert = UIAlertController(title: "Brak połączenia", message: "Brak połączenia z serwisem ekibic.zaglebie.com.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
-            self.viewDidLoad()
-        }))
-        self.present(alert, animated: true)
     }
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!

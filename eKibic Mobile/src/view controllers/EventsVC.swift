@@ -70,12 +70,20 @@ class EventsVC: UIViewController {
         
         // Download HTML code queue
         afQueue.async {
+            var timerCounter = 0
+            let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                timerCounter += 1
+            }
+            self.afSession.htmlSourceCode = nil
             self.afSession.dowloadHtmlSourceCode(url: dataModel.eKibicURL["forSale"] ?? "")
             
             while self.afSession.htmlSourceCode == nil {
+                if timerCounter >= 10 {
+                    self.presentTimeoutError()
+                    break
+                }
                 usleep(100000)
             }
-            
             if self.afSession.htmlSourceCode != "error" {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
                 dataModel.update()
@@ -83,38 +91,47 @@ class EventsVC: UIViewController {
             else {
                 self.presentServerError()
             }
+            timeoutTimer.invalidate()
         }
         // Download images Queue
         afQueue.async {
+            var timerCounter = 0
+            let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                timerCounter += 1
+            }
+            
             for event in dataModel.events {
+                self.afSession.image = nil
                 guard event.opponentImgLink != nil else {
                     return
                 }
                 self.afSession.downloadImage(url: event.opponentImgLink!)
                 while self.afSession.image == nil {
+                    if timerCounter >= 10 {
+                        self.presentTimeoutError()
+                        break
+                    }
                     usleep(100000)
                 }
                 self.opponentsImages.append(self.afSession.image!)
                 self.afSession.image = nil
                 
+                timerCounter = 0
+                
                 self.afSession.downloadImage(url: event.hostImgLink!)
                 while self.afSession.image == nil {
+                    if timerCounter >= 10 {
+                        self.presentTimeoutError()
+                        break
+                    }
                     usleep(100000)
                 }
                 self.hostsImages.append(self.afSession.image!)
                 self.afSession.image = nil
             }
-            
+            timeoutTimer.invalidate()
             self.updateView()
         }
-    }
-    
-    private func presentServerError() {
-        let alert = UIAlertController(title: "Brak połączenia", message: "Brak połączenia z serwisem ekibic.zaglebie.com.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Odśwież", style: .default, handler: {action in
-            self.downloadData()
-        }))
-        self.present(alert, animated: true)
     }
 
     @IBOutlet weak var navigationBar: UINavigationBar!
