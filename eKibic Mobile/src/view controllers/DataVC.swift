@@ -69,11 +69,20 @@ class DataVC: UIViewController {
         
         // Sectors data Queue
         afQueue.async {
+            var timerCounter = 0
+            let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                timerCounter += 1
+            }
+            
             self.afSession.htmlSourceCode = nil
             self.afSession.dowloadHtmlSourceCode(url: url)
             
             while self.afSession.htmlSourceCode == nil {
-                usleep(1000)
+                if timerCounter >= 10 {
+                    self.presentTimeoutError()
+                    break
+                }
+                usleep(100000)
             }
             if self.afSession.htmlSourceCode != "error" {
                 dataModel.htmlSourceCode = self.afSession.htmlSourceCode
@@ -82,16 +91,26 @@ class DataVC: UIViewController {
                 self.presentServerError()
             }
             dataModel.update()
+            timeoutTimer.invalidate()
         }
         
         // More Sectors data Queue
         afQueue.async {
+            var timerCounter = 0
+            let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                timerCounter += 1
+            }
+            
             for sector in dataModel.stadium!.sectors {
                 if let link = sector.value.link {
                     self.afSession.htmlSourceCode = nil
                     self.afSession.dowloadHtmlSourceCode(url: link)
                     
                     while self.afSession.htmlSourceCode == nil {
+                        if timerCounter >= 10 {
+                            self.presentTimeoutError()
+                            break
+                        }
                         usleep(1000)
                     }
                     if self.afSession.htmlSourceCode != "error" {
@@ -102,12 +121,14 @@ class DataVC: UIViewController {
                         break
                     }
                 }
+                timerCounter = 0
             }
             
             if self.afSession.htmlSourceCode != "error" {
                 dataModel.update()
                 self.updateView()
             }
+            timeoutTimer.invalidate()
         }
     }
     

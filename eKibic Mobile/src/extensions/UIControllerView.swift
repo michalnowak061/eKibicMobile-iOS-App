@@ -66,5 +66,15 @@ public extension UIViewController {
         }))
         self.present(alert, animated: true)
     }
+    
+    func fromleftToRightAnimation() {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        self.view.window!.layer.add(transition, forKey: nil)
+        self.dismiss(animated: false, completion: nil)
+    }
 }
 

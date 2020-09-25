@@ -228,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D4r-N5-so5" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3385" y="142"/>
+            <point key="canvasLocation" x="3384.8000000000002" y="141.67916041979012"/>
         </scene>
         <!--EventsVC-->
         <scene sceneID="2BR-cB-L37">
@@ -288,13 +288,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="host name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHo-yk-Ibe">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHo-yk-Ibe">
                                                     <rect key="frame" x="20" y="227.5" width="136.5" height="17.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="opponent name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Na0-hT-bnI">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Na0-hT-bnI">
                                                     <rect key="frame" x="179.5" y="227.5" width="136.5" height="17.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
@@ -393,6 +393,7 @@
                         <outlet property="eventsCollectionView" destination="Nz5-rc-3OE" id="pKO-FC-TzY"/>
                         <outlet property="loadingLabel" destination="tZI-x7-iaI" id="ogW-Pi-zQ1"/>
                         <outlet property="navigationBar" destination="0LP-FN-4lJ" id="RN1-RS-cZS"/>
+                        <segue destination="srk-h9-6Em" kind="presentation" identifier="presentDataVC" modalPresentationStyle="fullScreen" id="fdw-bk-WI9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="myY-0g-QPa" sceneMemberID="firstResponder"/>
@@ -413,13 +414,14 @@
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="gpF-O1-vzd">
                                         <rect key="frame" x="177.5" y="310" width="20" height="20"/>
                                     </activityIndicatorView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pobieranie danych" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-ha-PQb">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pobieranie danych" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-ha-PQb">
                                         <rect key="frame" x="20" y="330" width="335" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="gpF-O1-vzd" firstAttribute="centerY" secondItem="UbO-xg-TGX" secondAttribute="centerY" id="2Qa-ts-uuW"/>
                                     <constraint firstItem="zEG-nm-AtT" firstAttribute="trailing" secondItem="tbj-ha-PQb" secondAttribute="trailing" constant="20" id="gPZ-Vf-dtK"/>
@@ -430,9 +432,9 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="cfj-An-VKk"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="zEG-nm-AtT"/>
                             </scrollView>
-                            <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="QYH-g4-AfX">
+                            <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="QYH-g4-AfX">
                                 <rect key="frame" x="0.0" y="639.5" width="375" height="27.5"/>
-                                <color key="pageIndicatorTintColor" systemColor="systemGray5Color"/>
+                                <color key="pageIndicatorTintColor" systemColor="systemGray4Color"/>
                                 <color key="currentPageIndicatorTintColor" red="0.81568627449999997" green="0.3411764706" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
                         </subviews>
@@ -601,6 +603,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hYR-IA-31E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="gnY-sR-zXz" firstAttribute="leading" secondItem="hYR-IA-31E" secondAttribute="leading" constant="20" id="006-w2-E3C"/>
                             <constraint firstItem="q5W-CE-Cfh" firstAttribute="leading" secondItem="hYR-IA-31E" secondAttribute="leading" constant="20" id="1YR-Xa-i4l"/>
@@ -613,6 +616,9 @@
                             <constraint firstItem="hYR-IA-31E" firstAttribute="trailing" secondItem="q5W-CE-Cfh" secondAttribute="trailing" constant="20" id="hXY-zQ-Lqn"/>
                             <constraint firstItem="q5W-CE-Cfh" firstAttribute="top" secondItem="gnY-sR-zXz" secondAttribute="bottom" constant="10" id="psR-eC-Cf8"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="CQO-Mg-Kcn" appends="YES" id="T0V-h9-Eht"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="navigationBar" destination="K6J-3H-5cj" id="Mbq-fu-mqj"/>
@@ -627,6 +633,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0pD-FR-ao2" sceneMemberID="firstResponder"/>
+                <screenEdgePanGestureRecognizer minimumNumberOfTouches="2" id="CQO-Mg-Kcn">
+                    <rectEdge key="edges" left="YES"/>
+                    <connections>
+                        <action selector="swipeBackGesture:" destination="Mlm-ly-jIv" id="pNu-Fr-7fN"/>
+                        <outlet property="delegate" destination="Yb8-Jg-ihD" id="rE8-at-ux8"/>
+                    </connections>
+                </screenEdgePanGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2605.5999999999999" y="141.67916041979012"/>
         </scene>
@@ -682,6 +695,9 @@
         <image name="stadium_map.png" width="640" height="480"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

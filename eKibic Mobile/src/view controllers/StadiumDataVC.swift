@@ -11,6 +11,7 @@ import UIKit
 class StadiumDataVC: UIViewController {
     var viewQueue = DispatchQueue.main
     var barPrompt: String = ""
+    var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,28 @@ class StadiumDataVC: UIViewController {
     @IBOutlet weak var progressLabel: UILabel!
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        fromleftToRightAnimation()
+    }
+    
+    @IBAction func swipeBackGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
+        let touchPoint = sender.location(in: self.view?.window)
+        let swipeMaxDistance = self.view.frame.size.width * 0.2
+        let dismissActivationDistance = self.view.frame.size.width * 0.3
+        
+        if sender.state == UIGestureRecognizer.State.began {
+            initialTouchPoint = touchPoint
+        } else if sender.state == UIGestureRecognizer.State.changed {
+            if touchPoint.x - initialTouchPoint.x > 0 && touchPoint.x - initialTouchPoint.x < swipeMaxDistance {
+                self.view.frame = CGRect(x: touchPoint.x - initialTouchPoint.x, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            }
+        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+            if touchPoint.x - initialTouchPoint.x > dismissActivationDistance {
+                fromleftToRightAnimation()
+            } else {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+                })
+            }
+        }
     }
 }

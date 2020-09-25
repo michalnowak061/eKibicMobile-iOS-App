@@ -37,6 +37,8 @@
 		9D28475A251959F200D44FAA /* Sector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sector.swift; sourceTree = "<group>"; };
 		9D28475D25195A2600D44FAA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		9D28476025195BDC00D44FAA /* Stadium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stadium.swift; sourceTree = "<group>"; };
+		9D28476C251CFC9600D44FAA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		9D28476E251CFC9600D44FAA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		9D415A68250BD8F600C59AB5 /* eKibic Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eKibic Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D415A6B250BD8F600C59AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D415A6D250BD8F600C59AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +198,8 @@
 			isa = PBXGroup;
 			children = (
 				E1C23961E53B1662E9CEC546 /* Pods_eKibic_Mobile.framework */,
+				9D28476C251CFC9600D44FAA /* WidgetKit.framework */,
+				9D28476E251CFC9600D44FAA /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -228,7 +232,7 @@
 		9D415A60250BD8F600C59AB5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1170;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = mnowak061;
 				TargetAttributes = {

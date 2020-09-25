@@ -91,6 +91,10 @@ extension SectorsDataVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.sectorInfillProgressView.progress = sectors[indexPath.row].infill
         cell.sectorInfillLabel.text = String(format: "%.2f", sectors[indexPath.row].infill * 100) + "%"
         
+        if sectors[indexPath.row].isOpen == false {
+            cell.sectorInfillLabel.text = "Sektor wyłączony ze sprzedaży"
+        }
+    
         return cell
     }
 }
