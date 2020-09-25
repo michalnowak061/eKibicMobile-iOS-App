@@ -9,9 +9,15 @@
 import Foundation
 
 struct Sector {
-    var name = ""
-    var capacity = 0
-    var freePlaces = 0
+    var name: String = ""
+    var freePlaces: Int = 0
+    var capacityScaleFactor: Float = 1.0
+    var maxCapacity: Int = 0
+    var capacity: Int {
+        get {
+            return Int(ceil(Float(maxCapacity) * capacityScaleFactor))
+        }
+    }
     var occupiedPlaces: Int {
         get {
             let occupied = capacity - freePlaces
@@ -27,8 +33,8 @@ struct Sector {
             return infill
         }
     }
-    var isOpen = false
-    var isLoaded = false
+    var isOpen: Bool = false
+    var isLoaded: Bool = false
     var color: (r: Int, g: Int, b: Int) = (0, 0, 0)
     var link: String? = nil
     var htmlSourceCode: String? = nil

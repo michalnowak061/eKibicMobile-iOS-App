@@ -9,6 +9,7 @@
 import Foundation
 
 struct Stadium {
+    let maxCapacity: Int = 16086
     var sectors: [String : Sector] = [:]
     var sectorsKeys: [String] = []
     var capacity: Int {
