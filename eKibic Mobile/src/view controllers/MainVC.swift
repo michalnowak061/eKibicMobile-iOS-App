@@ -50,7 +50,7 @@ class MainVC: UIViewController {
         
         afQueue.async {
             while self.afSession.htmlSourceCode == nil && self.afSession.htmlSourceCode != "error" {
-                if timerCounter >= 10 {
+                if timerCounter >= 60 {
                     self.presentTimeoutError()
                     break
                 }
